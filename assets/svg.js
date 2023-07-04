@@ -20,7 +20,7 @@ class SVG {
         if (text.length > 3) {
             console.log("Text must be 3 characters or less");
         }
-        this.svgText = `<text x="150" y="125" fill="${color}" text-anchor="middle">${text}</text>`;
+        this.svgText = `<text x="150" y="125" font-size="50" text-anchor="middle" fill="${color}">${text}</text>`;
     }
     render() {
         return `<svg height="250" width="300" xmlns="http://www.w3.org/2000/svg">${this.svgShape}${this.svgText}</svg>`;
