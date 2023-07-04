@@ -2,10 +2,10 @@ class Shape {
     constructor () {
         this.shapeColor = "";
     }
-    setColor(shapeColor) {
-        this.shapeColor = shapeColor;
+    setColor(color) {
+        this.shapeColor = color;
     }
-}
+};
 
 class Circle extends Shape {
     render() {
@@ -24,3 +24,5 @@ class Square extends Shape {
         return `<rect x="90" y="40" width="120" height="120" fill="${this.shapeColor}" />`
     }
 }
+
+module.exports = { Circle, Triangle, Square };

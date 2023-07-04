@@ -1,18 +1,19 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const svg = require('./assets/svg');
+const SVG = require('./assets/svg');
+const { Circle, Square, Triangle } = require("./assets/shapes");
 
 inquirer
     .prompt([
         {
             type: 'input',
             name: 'text',
-            message: 'What is your text? 3 Characters or less.'
+            message: 'Enter up to 3 characters for your logo'
         },
         {
             type: 'input',
             name: 'textColor',
-            message: 'What is your text color?'
+            message: 'Choose a color for your text'
         },
         {
             type: 'list',
@@ -23,23 +24,34 @@ inquirer
         {
             type: 'input',
             name: 'shapeColor',
-            message: 'What is your shape color?'
+            message: 'Choose a color for your shape'
         }
     ])
     .then(function ({ text, textColor, shape, shapeColor }) {
         const svg = new SVG();
         svg.setText(text, textColor);
-        svg.setShape(shape, shapeColor);
-        svg.setShapeColor(shapeColor);
-        fs.writeFile('./logo.svg', svg.render());
-        console.log('Success! Check out logo.svg to see your logo.');
-        const { exec } = require('child_process');
-        exec('start chrome logo.svg');
-    })
-    .catch(error => {
-        if (error.isTtyError) {
-            console.log("Prompt couldn't be rendered in the current environment");
-        } else {
-            console.log('Something else went wrong');
+        svg.setColor(shapeColor);
+
+        switch (shape) {
+            case 'circle':
+                const circle = new Circle();
+                circle.setColor(shapeColor);
+                svg.setShape(circle);
+                break;
+            case 'triangle':
+                const triangle = new Triangle();
+                triangle.setColor(shapeColor);
+                svg.setShape(triangle);
+                break;
+            case 'square':
+                const square = new Square();
+                square.setColor(shapeColor);
+                svg.setShape(square);
+                break;
         }
+
+        fs.writeFile('logo.svg', svg.render(), function (err) {
+            if (err) throw err;
+            console.log('Your logo has been created in the logo.svg file!');
+        });
     });
